@@ -26,15 +26,27 @@ const InputForm: React.FC<InputFormCompProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Flex as="form" onSubmit={handleSubmit} mb={6}>
+    <Flex flexDirection={{ base: 'column', md: 'row' }} as="form" onSubmit={handleSubmit} mb={5}>
       <Input
         type="text"
-        placeholder="add details"
+        placeholder="Add details"
         aria-label="Add New Task"
         value={value}
         onChange={handleInput}
+        borderRadius="12px"
+        w={{ md: 4 / 5 }}
+        py={6}
       />
-      <Button type="submit" variant="solid" variantColor="blue">
+      <Button
+        type="submit"
+        variant="solid"
+        variantColor="blue"
+        borderRadius="12px"
+        w={{ md: 1 / 5 }}
+        py={6}
+        ml={{ md: 4 }}
+        mt={{ base: 4, md: 0 }}
+      >
         Add
       </Button>
     </Flex>

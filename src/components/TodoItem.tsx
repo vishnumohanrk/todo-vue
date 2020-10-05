@@ -16,14 +16,22 @@ const TodoItem: React.FC<TodoItemCompProps> = ({ item, taskAction, isLastTab }) 
 
   return (
     <Flex justify="space-between">
-      <Checkbox w="100%" isChecked={item.isDone} onChange={toggleItem} py={2}>
+      <Checkbox
+        w="100%"
+        isChecked={item.isDone}
+        onChange={toggleItem}
+        textDecoration={item.isDone && 'line-through'}
+        fontWeight={['medium']}
+        size="lg"
+        py={2}
+      >
         {item.name}
       </Checkbox>
       {isLastTab && (
         <IconButton
           aria-label={`Delete ${item.name}`}
           variant="ghost"
-          variantColor="red"
+          variantColor="gray"
           icon="delete"
           onClick={deleteItem}
         />

@@ -5,6 +5,8 @@ export interface TabTextCompProps {
   name: string;
 }
 
-const TabText: React.FC<TabTextCompProps> = ({ name }) => <Text>{name}</Text>;
+const TabText: React.FC<TabTextCompProps> = ({ name }) => (
+  <Text fontWeight={['semibold']}>{name}</Text>
+);
 
 export default TabText;

@@ -17,26 +17,26 @@ const TodoTabs: React.FC<TodoTabsCompProps> = props => {
   const activeTasks = props.datalist.filter(i => !i.isDone);
 
   return (
-    <Tabs isFitted variant="line">
-      <TabList mb="1em">
-        <Tab>
+    <Tabs isFitted variant="line" variantColor="blue">
+      <TabList mb={6}>
+        <Tab borderBottomWidth={4}>
           <TabText name="All" />
         </Tab>
-        <Tab>
+        <Tab borderBottomWidth={4}>
           <TabText name="Active" />
         </Tab>
-        <Tab>
+        <Tab borderBottomWidth={4}>
           <TabText name="Completed" />
         </Tab>
       </TabList>
       <TabPanels>
-        <TabPanel>
+        <TabPanel mb={6}>
           <TabGenList dataList={props.datalist} {...props} isLastTab={false} />
         </TabPanel>
-        <TabPanel>
+        <TabPanel mb={6}>
           <TabGenList dataList={activeTasks} {...props} isLastTab={false} />
         </TabPanel>
-        <TabPanel>
+        <TabPanel mb={6}>
           <TabGenList dataList={completedTasks} {...props} isLastTab={true} />
           <Flex justify="flex-end" mt={5}>
             <Button
