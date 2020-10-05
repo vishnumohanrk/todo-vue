@@ -40,7 +40,6 @@ const TodoTabs: React.FC<TodoTabsCompProps> = props => {
           <TabGenList dataList={completedTasks} {...props} isLastTab={true} />
           <Flex justify="flex-end" mt={5}>
             <Button
-              justifySelf="flex-end"
               variantColor="red"
               leftIcon="delete"
               onClick={props.deleteAll}
