@@ -1,12 +1,11 @@
-import { CSSReset, theme, ThemeProvider } from '@chakra-ui/core';
-import { AppProps } from 'next/app';
-import React from 'react';
+import 'tailwindcss/tailwind.css';
 
-const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => (
-  <ThemeProvider theme={theme}>
-    <CSSReset />
+import { AppProps } from 'next/app';
+
+const MyApp = ({ Component, pageProps }: AppProps) => (
+  <main className="flex flex-col max-w-lg min-h-screen mx-auto px-4 pb-4">
     <Component {...pageProps} />
-  </ThemeProvider>
+  </main>
 );
 
 export default MyApp;

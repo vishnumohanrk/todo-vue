@@ -1,54 +1,50 @@
-import Head from 'next/head';
-import React, { useEffect, useState } from 'react';
-import shortid from 'shortid';
+import NextHead from 'next/head';
+import * as React from 'react';
 
-import Header from '../src/components/Header';
-import TodoTabs from '../src/components/TodoTabs';
-import BaseLayout from '../src/layouts/BaseLayout';
-import { ITodo, TAddTask, TTaskAction } from '../src/models';
+import AppForm from '../components/AppForm';
+import AppTabs from '../components/AppTabs';
+import DelBtn from '../components/DeleteBtn';
+import ToDoItem from '../components/ToDoItem';
+import useTodo from '../hooks/useTodo';
+import { TTab } from '../utils';
 
-const defaultTasks: ITodo[] = [
-  { name: 'Task 1', isDone: false, id: shortid.generate() },
-  { name: 'Task 2', isDone: false, id: shortid.generate() },
-];
+const AppHome = () => {
+  const [activeTab, setActiveTab] = React.useState<TTab>('All');
+  const { addNew, deleteCompleted, deleteOne, tasks, toggleOne } = useTodo();
 
-const AppHome: React.FC = () => {
-  const [tasks, setTasks] = useState<ITodo[]>(defaultTasks);
-
-  const deleteAll = () => setTasks(tasks.filter(i => !i.isDone));
-
-  const addNewTask: TAddTask = payload => setTasks([payload, ...tasks]);
-
-  const taskAction: TTaskAction = (payload, action) =>
-    action === 'delete'
-      ? setTasks(tasks.filter(i => i.id !== payload.id))
-      : setTasks(tasks.map(i => ({ ...i, isDone: i.id === payload.id ? !i.isDone : i.isDone })));
-
-  useEffect(() => {
-    setTasks(JSON.parse(localStorage.getItem('tasks')) || defaultTasks);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }, [tasks]);
+  const tasksToDisplay =
+    activeTab === 'Active'
+      ? tasks.filter(i => !i.isDone)
+      : activeTab === 'Completed'
+      ? tasks.filter(i => i.isDone)
+      : tasks;
 
   return (
     <>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>ToDo App - DEV Challenges</title>
-        <meta name="description" content="DEV Challenges.io - ToDo App - By Vishnumohan R K" />
-      </Head>
+      <NextHead>
+        <title>ToDo</title>
+        <meta name="description" content="ToDo App Using Next/Tailwind - Vishnumohan R K" />
+      </NextHead>
 
-      <BaseLayout>
-        <Header />
-        <TodoTabs
-          taskAction={taskAction}
-          addNewTask={addNewTask}
-          datalist={tasks}
-          deleteAll={deleteAll}
-        />
-      </BaseLayout>
+      <header>
+        <h1 className="text-center text-3xl font-bold my-5">#todo</h1>
+        <AppTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+        {activeTab !== 'Completed' ? <AppForm submitCallback={addNew} /> : null}
+        <div className="flex flex-col space-y-5">
+          {tasksToDisplay.map(i => (
+            <ToDoItem
+              {...i}
+              shouldShowDelBtn={activeTab === 'Completed'}
+              deleteOne={deleteOne}
+              toggleOne={toggleOne}
+              key={i.id}
+            />
+          ))}
+        </div>
+        {activeTab === 'Completed' ? (
+          <DelBtn shouldDisable={tasksToDisplay.length === 0} onPress={deleteCompleted} />
+        ) : null}
+      </header>
     </>
   );
 };
